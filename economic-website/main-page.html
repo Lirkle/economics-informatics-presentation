@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>404WEAR - Уличная одежда</title>
+		<link rel="shortcut icon" href="icons/clothes.png" type="image/x-icon" />
+		<link rel="stylesheet" href="styles/main-page.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Honk&family=Manrope:wght@200..800&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<!-- Навигационная шапка -->
+		<header class="nav-bar">
+			<div class="nav-left">
+				<a href="#"
+					><img src="icons/logo.png" alt="404WEAR logo" width="60"
+				/></a>
+			</div>
+			<nav class="nav-center">
+				<ul>
+					<li><a href="#">Главная</a></li>
+					<li><a href="#">Коллекции</a></li>
+					<li><a href="#">Доставка</a></li>
+					<li><a href="#">Новости</a></li>
+					<li><a href="#">Контакты</a></li>
+				</ul>
+			</nav>
+			<div class="nav-right">
+				<div class="sign">
+					<a href="#"
+						><img src="icons/user-sign.png" alt="Войти" width="35"
+					/></a>
+					<a href="#">Войти</a>
+				</div>
+			</div>
+		</header>
+
+		<main>
+			<!-- Hero секция с динамическим фоном -->
+			<section class="hero">
+				<div class="hero-content">
+					<h1>404WEAR</h1>
+					<p>Уличная одежда, отражающая твою индивидуальность</p>
+					<a href="#" class="btn">Начать покупки</a>
+				</div>
+				<!-- Блок выбора раздела (Женщинам, Мужчинам, Детям) -->
+				<div class="choose-sex">
+					<div class="choose-sex-links">
+						<a href="#">Женщинам</a>
+						<a href="#">Мужчинам</a>
+						<a href="#">Детям</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Секция новых коллекций -->
+			<section class="collections">
+				<h2>Новые коллекции</h2>
+				<div class="collections-grid">
+					<div class="collection-item">
+						<img src="images/collection1.jpg" alt="Коллекция 1" />
+						<h3>Коллекция 1</h3>
+					</div>
+					<div class="collection-item">
+						<img src="images/collection2.jpg" alt="Коллекция 2" />
+						<h3>Коллекция 2</h3>
+					</div>
+					<div class="collection-item">
+						<img src="images/collection3.jpg" alt="Коллекция 3" />
+						<h3>Коллекция 3</h3>
+					</div>
+				</div>
+			</section>
+
+			<!-- Секция "О нас" -->
+			<section class="about">
+				<h2>О нас</h2>
+				<p>
+					404WEAR – это бренд уличной одежды, созданный для тех, кто ценит
+					уникальный стиль и качество. Наши коллекции отражают последние
+					тенденции моды и вдохновлены городской жизнью. Мы стремимся к тому,
+					чтобы каждый мог выразить свою индивидуальность через наш стиль.
+				</p>
+			</section>
+		</main>
+
+		<!-- Футер -->
+		<footer>
+			<div class="footer-content">
+				<p>&copy; 2025 404WEAR. Все права защищены.</p>
+				<div class="social-links">
+					<a href="#"
+						><img src="icons/facebook.png" alt="Facebook" width="25"
+					/></a>
+					<a href="#"
+						><img src="icons/instagram.png" alt="Instagram" width="25"
+					/></a>
+					<a href="#"
+						><img src="icons/twitter.png" alt="Twitter" width="25"
+					/></a>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Кнопка "Наверх" -->
+		<button id="backToTop" title="Наверх">&#8679;</button>
+
+		<!-- JavaScript для интерактивности -->
+		<script>
+			// Динамическая смена фона для секции Hero с плавным переходом
+			const hero = document.querySelector('.hero')
+			const heroBackgrounds = [
+				"url('./images/hero-bg.jpg')",
+				"url('./images/hero-bg2.jpg')",
+				"url('./images/hero-bg3.jpg')",
+			]
+			let currentBg = 0
+
+			setInterval(() => {
+				// Начинаем плавное исчезновение
+				hero.style.opacity = 0
+
+				// После завершения fade-out меняем фон и запускаем fade-in
+				setTimeout(() => {
+					currentBg = (currentBg + 1) % heroBackgrounds.length
+					hero.style.background = `${heroBackgrounds[currentBg]} center/cover no-repeat`
+					hero.style.opacity = 1
+				}, 1000) // время задержки соответствует длительности fade-out
+			}, 5000) // смена каждые 5 секунд
+
+			// Плавное появление элементов при прокрутке
+			const scrollElements = document.querySelectorAll(
+				'section, .collection-item'
+			)
+			const elementInView = (el, dividend = 1) => {
+				const elementTop = el.getBoundingClientRect().top
+				return (
+					elementTop <=
+					(window.innerHeight || document.documentElement.clientHeight) /
+						dividend
+				)
+			}
+
+			const displayScrollElement = element => {
+				element.classList.add('scrolled')
+			}
+
+			const handleScrollAnimation = () => {
+				scrollElements.forEach(el => {
+					if (elementInView(el, 1.25)) {
+						displayScrollElement(el)
+					}
+				})
+			}
+
+			window.addEventListener('scroll', () => {
+				handleScrollAnimation()
+				// Показать/скрыть кнопку "Наверх"
+				const backToTop = document.getElementById('backToTop')
+				if (window.pageYOffset > 300) {
+					backToTop.style.display = 'block'
+				} else {
+					backToTop.style.display = 'none'
+				}
+			})
+
+			// Плавная прокрутка к началу страницы
+			document.getElementById('backToTop').addEventListener('click', () => {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth',
+				})
+			})
+		</script>
+	</body>
+</html>
